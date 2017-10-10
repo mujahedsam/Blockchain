@@ -1,0 +1,9 @@
+ API Key
+9c60cbc64f97096eb2d4ec709aedd4afe2a39e7a
+
+API Key Secret
+dc4dd1256e3f6b399c2eb83fc40d11bca5ef27c5
+
+
+walletname and password
+"testofmujahed", "mypass12345"
