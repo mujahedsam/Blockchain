@@ -50,6 +50,18 @@ class Api {
             this.mwobj.managewallet(req,res);
         })
 
+        router.post('/generateaddress', (req, res) => {
+            this.mwobj.generateaddress(req,res);
+        })
+
+        router.post('/send', (req, res) => {
+            this.mwobj.send(req,res);
+        })
+
+         router.post('/history', (req, res) => {
+            this.mwobj.history(req,res);
+        })
+
         router.post('/settings', (req, res) => {
             this.setobj.settings(req,res);
         })
