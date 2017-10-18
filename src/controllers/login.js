@@ -13,67 +13,69 @@ var client = blocktrail.BlocktrailSDK({
     testnet: true
 });
 
-export class Login{
+export class Login {
 
-	constructor() {
+    constructor() {
 
     }
     //***login functionality after registration*****
-    login(req,res){
-            return new promise((resolve, reject)=>{
-                    let username = req.body.username;
-                    let password = req.body.password;
-                     User.find({"username":username},(err,data)=>{
-                          if(data.length>=1){
+    login(req, res) {
+        return new promise((resolve, reject) => {
+            let username = req.body.username;
+            let password = req.body.password;
+            User.find({
+                "username": username
+            }, (err, data) => {
+                if (data.length >= 1) {
 
-                                    bcrypt.compare(password,data[0].password, function(err, result) {
-                                                if(result){
-                                                    resolve(data);
-                                                }
-                                                else{
-                                                 res.status(404).send({
-                                                 message: "Invalid login details"
-                                                     })
-                                                 }
-                                        });
-                          }else if(data==null){
-                            console.log("no user exists its null");
+                    bcrypt.compare(password, data[0].password, function(err, result) {
+                        if (result) {
+                            resolve(data);
+                        } else {
                             res.status(404).send({
-                                 message: "Invalid login details"
-                                     })
-                          }else{
-                            console.log("error in login");
-                            res.status(404).send({
-                                 message: "Invalid login details"
-                                     })
-                          }
-                     })
-
-            }).then((userdata)=>{
-                        //to fetch all the subwallets of logged in user
-                         Wallets.find({"username":userdata[0].username},(err,wdata)=>{
-                             if(wdata.length>=1){
-                                res.status(200).send({
-                                        message: "welcome! "+userdata[0].username+" you are logged in",
-                                        data: userdata,
-                                        walletdata:wdata
-                                    })
-                             }else if(err){
-                                res.status(404).send({
-                                            message: "failed to fetch wallet details",
-                                            data:userdata
-                                 })
-                             }else{
-                                res.status(200).send({
-                                    message: "welcome! "+userdata[0].username+" you are logged in",
-                                    message2: "No wallets exists",
-                                    data:userdata
-                                })
-                             }
-                         })
+                                message: "Invalid login details"
+                            })
+                        }
+                    });
+                } else if (data == null) {
+                    console.log("no user exists its null");
+                    res.status(404).send({
+                        message: "Invalid login details"
                     })
+                } else {
+                    console.log("error in login");
+                    res.status(404).send({
+                        message: "Invalid login details"
+                    })
+                }
+            })
 
-        }
+        }).then((userdata) => {
+            //to fetch all the subwallets of logged in user
+            Wallets.find({
+                "username": userdata[0].username
+            }, (err, wdata) => {
+                if (wdata.length >= 1) {
+                    res.status(200).send({
+                        message: "welcome! " + userdata[0].username + " you are logged in",
+                        data: userdata,
+                        walletdata: wdata
+                    })
+                } else if (err) {
+                    res.status(404).send({
+                        message: "failed to fetch wallet details",
+                        data: userdata
+                    })
+                } else {
+                    res.status(200).send({
+                        message: "welcome! " + userdata[0].username + " you are logged in",
+                        message2: "No wallets exists",
+                        data: userdata
+                    })
+                }
+            })
+        })
+
+    }
 
 }
- 
